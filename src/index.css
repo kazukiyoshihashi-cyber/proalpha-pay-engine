@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1A3A5C;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #E8A020;
+  --color-secondary-foreground: #1A1A1A;
+  --color-neutral: #F5F4F0;
+  --color-success: #2E7D32;
+  --color-success-foreground: #FFFFFF;
+  --color-warning: #E65100;
+  --color-warning-foreground: #FFFFFF;
+  --color-error: #C62828;
+  --color-error-foreground: #FFFFFF;
+  
+  --color-background: #F5F4F0;
+  --color-foreground: #1A1A1A;
+  --color-muted: #f3f4f6;
+  --color-muted-foreground: #5A5A5A;
+  --color-border: #e5e7eb;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #1A1A1A;
+
+  --font-serif: "Noto Serif JP", serif;
+  --font-sans: "Noto Sans JP", sans-serif;
+  --font-mono: "Tabular Nums", ui-monospace, monospace;
+}
+
+@layer base {
+  :root {
+    --background: var(--color-background);
+    --foreground: var(--color-foreground);
+    --card: var(--color-card);
+    --card-foreground: var(--color-card-foreground);
+    --popover: var(--color-card);
+    --popover-foreground: var(--color-card-foreground);
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-primary-foreground);
+    --secondary: var(--color-secondary);
+    --secondary-foreground: var(--color-secondary-foreground);
+    --muted: var(--color-muted);
+    --muted-foreground: var(--color-muted-foreground);
+    --accent: var(--color-muted);
+    --accent-foreground: var(--color-foreground);
+    --destructive: var(--color-error);
+    --destructive-foreground: var(--color-error-foreground);
+    --border: var(--color-border);
+    --input: var(--color-border);
+    --ring: var(--color-primary);
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+/* Custom Scrollbar for better look */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

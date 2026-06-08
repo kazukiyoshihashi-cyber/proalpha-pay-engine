@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:5174/)",
+      "Bash(mkdir -p ~/Desktop/outputs)",
+      "Bash(npm list *)",
+      "Bash(npm install *)",
+      "Bash(mkdir -p /tmp/hearing)",
+      "Read(//tmp/**)",
+      "Bash(node gen.js)",
+      "Bash(python3 scripts/office/validate.py /tmp/hearing/hearing_sheet.docx)",
+      "Bash(find / -name validate.py -path \"*office*\")",
+      "Bash(cp /tmp/hearing/hearing_sheet.docx ~/Desktop/outputs/安東様_給与計算ヒアリングシート.docx)",
+      "Read(//Users/yoshihashikazuki/Desktop/outputs/**)",
+      "Bash(gh auth *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}
