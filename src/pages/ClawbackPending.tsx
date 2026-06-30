@@ -4,14 +4,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { MOCK_PENDING_CLAWBACKS } from "../lib/mockData";
+import { MOCK_CLAWBACKS } from "../lib/mockData";
+import type { ClawbackItem } from "../types";
 
 export function ClawbackPending() {
-  const [clawbacks, setClawbacks] = useState(MOCK_PENDING_CLAWBACKS);
+  const [clawbacks, setClawbacks] = useState<ClawbackItem[]>(MOCK_CLAWBACKS);
 
   const handleApprove = (id: string) => {
-    setClawbacks(clawbacks.map(c => 
-      c.id === id ? { ...c, status: '確認済' } : c
+    setClawbacks(clawbacks.map(c =>
+      c.id === id ? { ...c, status: 'approved' as const } : c
     ));
   };
 
@@ -24,21 +25,23 @@ export function ClawbackPending() {
         </div>
       </div>
 
-      <div className="bg-warning/10 border border-warning/20 rounded-lg p-4 flex items-start space-x-3">
-        <AlertCircle className="w-5 h-5 text-warning shrink-0 mt-0.5" />
-        <div>
-          <h4 className="text-warning font-medium">未処理の戻入データがあります</h4>
-          <p className="text-sm text-warning/80 mt-1">
-            未処理の案件は、次回の給与計算（天引き）に反映されません。内容を確認し「承認」を行ってください。
-          </p>
+      {clawbacks.some(c => c.status === 'pending') && (
+        <div className="bg-warning/10 border border-warning/20 rounded-lg p-4 flex items-start space-x-3">
+          <AlertCircle className="w-5 h-5 text-warning shrink-0 mt-0.5" />
+          <div>
+            <h4 className="text-warning font-medium">未処理の戻入データがあります</h4>
+            <p className="text-sm text-warning/80 mt-1">
+              未処理の案件は、次回の給与計算（天引き）に反映されません。内容を確認し「承認」を行ってください。
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       <Card>
         <CardHeader>
           <CardTitle>戻入データ一覧</CardTitle>
           <CardDescription>
-            経過月数に応じて自動計算された天引き予定額です。
+            経過月数に応じて自動計算された天引き予定額です（ANDO Engine: クローバックルール CR003 適用）。
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -71,7 +74,7 @@ export function ClawbackPending() {
                     {item.elapsedMonths} ヶ月
                   </TableCell>
                   <TableCell className="text-right">
-                    ¥{item.originalAmount.toLocaleString()}
+                    ¥{item.originalCommission.toLocaleString()}
                   </TableCell>
                   <TableCell className="text-center">
                     <Badge variant="outline" className="font-mono">
@@ -85,20 +88,20 @@ export function ClawbackPending() {
                     {item.staffName}
                   </TableCell>
                   <TableCell className="text-center">
-                    {item.status === '未処理' ? (
-                      <Badge variant="warning">{item.status}</Badge>
+                    {item.status === 'pending' ? (
+                      <Badge className="bg-warning/10 text-warning border-warning/20">未処理</Badge>
                     ) : (
-                      <Badge variant="success">{item.status}</Badge>
+                      <Badge className="bg-success/10 text-success border-success/20">承認済</Badge>
                     )}
                   </TableCell>
                   <TableCell className="text-center">
-                    {item.status === '未処理' ? (
+                    {item.status === 'pending' ? (
                       <Button size="sm" onClick={() => handleApprove(item.id)}>
                         確認・承認
                       </Button>
                     ) : (
-                      <span className="text-sm text-muted-foreground flex items-center justify-center">
-                        <CheckCircle2 className="w-4 h-4 mr-1 text-success" /> 承認済
+                      <span className="text-sm text-muted-foreground flex items-center justify-center gap-1">
+                        <CheckCircle2 className="w-4 h-4 text-success" /> 承認済
                       </span>
                     )}
                   </TableCell>
